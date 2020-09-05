@@ -1,34 +1,39 @@
-class Vector {
-	constructor(X, Y, Z) {
-		this.x = X || null;
-		this.y = Y || null;
-		this.z = Z || null;
-
-		this.Dim = arguments.length;
-	}
-
-	normalize(){
-		if(this.Dim > 1){
-			if(this.Dim == 2){
-				const len = Math.sqrt(this.x ** 2 + this.y ** 2);
-				this.x /= len;
-				this.y /= len;
-				return this;
-			}else 
-			if(this.Dim == 3){
-				const len = Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2);
-				this.x /= len;
-				this.y /= len;
-				this.z /= len;
-				return this;
-			}
-		}else{
-			return null;
-		}
-	}
-}
+// UNUSED CODE --- Vector Template
+// class Vector {
+// 	constructor(X, Y, Z) {
+// 		this.x = X || null;
+// 		this.y = Y || null;
+// 		this.z = Z || null;
+// 		this.Dim = arguments.length;
+// 	}
+// 	normalize(){
+// 		if(this.Dim > 1){
+// 			if(this.Dim == 2){
+// 				const len = Math.sqrt(this.x ** 2 + this.y ** 2);
+// 				this.x /= len;
+// 				this.y /= len;
+// 				return this;
+// 			}else 
+// 			if(this.Dim == 3){
+// 				const len = Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2);
+// 				this.x /= len;
+// 				this.y /= len;
+// 				this.z /= len;
+// 				return this;
+// 			}
+// 		}else{
+// 			return null;
+// 		}
+// 	}
+// }
 
 (function(G){
+	class Ray  {
+		constructor(_pos, _dir){
+			this.pos = _pos;
+			this.dir = _dir;
+		}
+	}
 	class Block {
 		constructor(_color, _pos, _size) {
 			this.color = _color;
@@ -46,8 +51,8 @@ class Vector {
 			strokeWeight(2);
 			stroke(0);
 
+			// BACK
 			if (this.visibleFace[0]) {
-				// BACK
 				fill(this.color[0]);
 				face([
 					[-Size, -Size, -Size],
@@ -57,8 +62,8 @@ class Vector {
 				]);
 			}
 
+			// FRONT
 			if(this.visibleFace[1]){
-				// FRONT
 				fill(this.color[1]);
 				face([
 					[-Size, -Size, +Size],
@@ -68,8 +73,8 @@ class Vector {
 				]);
 			}
 
+			// TOP
 			if(this.visibleFace){
-				// TOP
 				fill(this.color[2]);
 				face([
 					[-Size, -Size, -Size],
@@ -79,8 +84,8 @@ class Vector {
 				]);
 			}
 
+			// BOTTOM
 			if (this.visibleFace[3]) {
-				// BOTTOM
 				fill(this.color[3]);
 				face([
 					[-Size, +Size, -Size],
@@ -90,9 +95,10 @@ class Vector {
 				]);
 			}
 
+			// LEFT
 			if (this.visibleFace[4]) {
-				// LEFT
 				fill(this.color[4]);
+				// noFill();
 				face([
 					[-Size, -Size, -Size],
 					[-Size, +Size, -Size],
@@ -101,8 +107,8 @@ class Vector {
 				]);
 			}
 			
+			// RIGHT
 			if(this.visibleFace[5]){
-				// RIGHT
 				fill(this.color[5]);
 				face([
 					[+Size, -Size, -Size],
@@ -123,33 +129,32 @@ class Vector {
 		}
 
 		draw(){
+			translate(this.pos.x, this.pos.y, this.pos.z);
 			this.drawFaces();
+			translate(-this.pos.x, -this.pos.y, -this.pos.z);
 		}
 	}
 
 	const Keys = [];
 	G.onkeydown = e => {
 		const K = e.keyCode;
-		let Searched = true;
+		let Found = false;
+		let FoundPos = 0;
 
-		Keys.map((elm, i) => {
-			if(Searched){
-				if(elm == K){
-					Searched = false;
-					return;
-				}
-			}else{
-				return;
+		Keys.find((e, i) => {
+			if(e.code == K){
+				Found = true;
+				FoundPos = i;
 			}
 		});
 
-		if(Searched){
+		if(!Found){
 			Keys.unshift({
-				Code: K,
-				Key: e.key,
+				code: K,
+				key: e.key,
 				isShifted: e.shiftKey,
 				isCtrled: e.ctrlKey,
-				CodeLower: (K >= 65 && K <= 90? e.key.toLowerCase().charCodeAt(): K)
+				codeLower: (K >= 65 && K <= 90? e.key.toLowerCase().charCodeAt(): K)
 			});
 		}
 
@@ -158,23 +163,18 @@ class Vector {
 
 	G.onkeyup = e => {
 		const K = e.keyCode;
-		let Searched = true;
-		let AN = null;
+		let Found = false;
+		let FoundPos = 0;
 
-		Keys.map((elm, i) => {
-			if(Searched){
-				if(elm.Code == K){
-					Searched = false;
-					AN = i;
-					return;
-				}
-			}else{
-				return;
+		Keys.find((e, i) => {
+			if(e.code == K){
+				Found = true;
+				FoundPos = i;
 			}
 		});
 
-		if((!Searched) && (AN !== null)){
-			Keys.splice(AN, 1);
+		if(Found){
+			Keys.splice(FoundPos, 1);
 		}
 
 		G.Keys = Keys;
