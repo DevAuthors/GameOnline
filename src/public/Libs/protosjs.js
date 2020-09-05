@@ -1,9 +1,3 @@
-class Color {
-	constructor() {
-
-	}
-}
-	
 class Vector {
 	constructor(X, Y, Z) {
 		this.x = X || null;
@@ -33,55 +27,159 @@ class Vector {
 		}
 	}
 }
-	
-class Block {
-	constructor(_color, _pos, _size) {
-		this.color = _color;
-		this.pos = _pos;
-		this.size = _size;
 
-		this.verts = [
-			[_pos.x, 			_pos.y, 			_pos.z],
-			[_pos.x + _size, 	_pos.y, 			_pos.z],
-			[_pos.x + _size, 	_pos.y + _size, 	_pos.z],
-			[_pos.x, 			_pos.y + _size, 	_pos.z],
+(function(G){
+	class Block {
+		constructor(_color, _pos, _size) {
+			this.color = _color;
+			this.pos = _pos;
+			this.size = _size;
 
-			[_pos.x, 			_pos.y, 			_pos.z + _size],
-			[_pos.x + _size, 	_pos.y, 			_pos.z + _size],
-			[_pos.x + _size, 	_pos.y + _size, 	_pos.z + _size],
-			[_pos.x, 			_pos.y + _size, 	_pos.z + _size]
-		];
-	}
+			this.visible = true;
+			this.visibleFace = new Array(6);
 
-	draw(){
-		fill(color(0, 0, 255));
-		strokeWeight(2);
-		const verts = this.verts;
-		beginShape(QUADS);
+			this.visibleFace.fill(true);
+		}
 
-			// Front
-			fill(0, 255, 0);
-			face(0, 1, 2, 3);
+		drawFaces(){
+			const Size = this.size;
+			strokeWeight(2);
+			stroke(0);
 
-			// Back
-			fill(0, 0, 255);
-			face(4, 5, 6, 7);
+			if (this.visibleFace[0]) {
+				// BACK
+				fill(this.color[0]);
+				face([
+					[-Size, -Size, -Size],
+					[+Size, -Size, -Size],
+					[+Size, +Size, -Size],
+					[-Size, +Size, -Size]
+				]);
+			}
 
-			// Left
-			fill(255, 0, 0);
-			face(7, 3, 0, 4);
+			if(this.visibleFace[1]){
+				// FRONT
+				fill(this.color[1]);
+				face([
+					[-Size, -Size, +Size],
+					[+Size, -Size, +Size],
+					[+Size, +Size, +Size],
+					[-Size, +Size, +Size]
+				]);
+			}
 
-			face(5, 1, 2, 6);
+			if(this.visibleFace){
+				// TOP
+				fill(this.color[2]);
+				face([
+					[-Size, -Size, -Size],
+					[+Size, -Size, -Size],
+					[+Size, -Size, +Size],
+					[-Size, -Size, +Size]
+				]);
+			}
+
+			if (this.visibleFace[3]) {
+				// BOTTOM
+				fill(this.color[3]);
+				face([
+					[-Size, +Size, -Size],
+					[+Size, +Size, -Size],
+					[+Size, +Size, +Size],
+					[-Size, +Size, +Size]
+				]);
+			}
+
+			if (this.visibleFace[4]) {
+				// LEFT
+				fill(this.color[4]);
+				face([
+					[-Size, -Size, -Size],
+					[-Size, +Size, -Size],
+					[-Size, +Size, +Size],
+					[-Size, -Size, +Size]
+				]);
+			}
 			
-		endShape();
+			if(this.visibleFace[5]){
+				// RIGHT
+				fill(this.color[5]);
+				face([
+					[+Size, -Size, -Size],
+					[+Size, +Size, -Size],
+					[+Size, +Size, +Size],
+					[+Size, -Size, +Size]
+				]);
+			}
 
-		function face(i1, i2, i3, i4){
-			vertex(verts[i1][0], verts[i1][1], verts[i1][2]);
-			vertex(verts[i2][0], verts[i2][1], verts[i2][2]);
-			vertex(verts[i3][0], verts[i3][1], verts[i3][2]);
-			vertex(verts[i4][0], verts[i4][1], verts[i4][2]);
-			//vertex(verts[i1][0], verts[i1][1], verts[i1][2]);
+			function face(poss){
+				beginShape();
+					vertex(poss[0][0] - 1, poss[0][1] - 1, poss[0][2] - 1);
+					vertex(poss[1][0] - 1, poss[1][1] - 1, poss[1][2] - 1);
+					vertex(poss[2][0] - 1, poss[2][1] - 1, poss[2][2] - 1);
+					vertex(poss[3][0] - 1, poss[3][1] - 1, poss[3][2] - 1);
+				endShape(CLOSE);
+			}
+		}
+
+		draw(){
+			this.drawFaces();
 		}
 	}
-}
-	
+
+	const Keys = [];
+	G.onkeydown = e => {
+		const K = e.keyCode;
+		let Searched = true;
+
+		Keys.map((elm, i) => {
+			if(Searched){
+				if(elm == K){
+					Searched = false;
+					return;
+				}
+			}else{
+				return;
+			}
+		});
+
+		if(Searched){
+			Keys.unshift({
+				Code: K,
+				Key: e.key,
+				isShifted: e.shiftKey,
+				isCtrled: e.ctrlKey,
+				CodeLower: (K >= 65 && K <= 90? e.key.toLowerCase().charCodeAt(): K)
+			});
+		}
+
+		G.Keys = Keys;
+	}
+
+	G.onkeyup = e => {
+		const K = e.keyCode;
+		let Searched = true;
+		let AN = null;
+
+		Keys.map((elm, i) => {
+			if(Searched){
+				if(elm.Code == K){
+					Searched = false;
+					AN = i;
+					return;
+				}
+			}else{
+				return;
+			}
+		});
+
+		if((!Searched) && (AN !== null)){
+			Keys.splice(AN, 1);
+		}
+
+		G.Keys = Keys;
+	}
+
+	G.Block = Block;
+	G.Keys = Keys;
+})(window || this);
