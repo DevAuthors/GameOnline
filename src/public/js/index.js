@@ -6,18 +6,33 @@ let Pos;
 let Jumping = false;
 let FrameJump = 0;
 
+let Camera;
+
+function preload() {
+	loadAllTextures();
+}
 function setup() {
-	createCanvas(window.innerWidth, window.innerHeight, WEBGL);
+	createCanvas(windowWidth, windowHeight, WEBGL);
+	perspective(PI / 3.0, width / height, 0.01, 1000);
 
 	Pos = createVector(0, 0, 0);
+
+	Camera = new Protos.FirstPersonCamera();
+
+	Map.Setup();
 }
 
 function draw(){
 	background(255);
+	noStroke();
+	Protos.setFloor(color("#008000"), 500, Pos);
 	if(mouseIsPressed){
-		rot++;
+		//rot++;
 	}
-	Keys.map(Key => {
+
+	Camera.update();
+
+	Protos.Keys.map(Key => {
 		switch (Key.codeLower) {
 			case 114:
 				rot = 0;
@@ -44,31 +59,30 @@ function draw(){
 	});
 
 	if(Jumping){
-		Pos.y = cos(radians((frameCount - FrameJump) * 2)) * 100 - 100;
+		const FF = (frameCount - FrameJump) * 4;
+		const Power = 70;
+		Pos.y = cos(radians(FF)) * Power - Power;
 
-		if((frameCount - FrameJump) * 2 >= 360){
+		if(FF >= 360){
 			Jumping = false;
 		}
 	}
 
 	translate(-Pos.x, -Pos.y, -Pos.z);
 	rotateY(radians(rot));
-	rotateX(radians(rot));
-	new Block(
-		["#654321", "#654321",
-		"#008000", "#654321",
-		"#654321", "#654321"], new createVector(0, 0, 0), 50).draw();
-	new Block(
-			["#654321", "#654321",
-			"#008000", "#654321",
-			"#654321", "#654321"], new createVector(100, 0, 0), 50).draw();
-	new Block(
-		["#654321", "#654321",
-		"#008000", "#654321",
-		"#654321", "#654321"], new createVector(-100, 0, 0), 50).draw();
-		new Block(
-			["#654321", "#654321",
-			"#008000", "#654321",
-			"#654321", "#654321"], new createVector(200, 0, 0), 50).draw();
+	//rotateX(radians(rot));
+
+	Map.map.map(e => {
+		e.map(e => {
+			e.draw();
+		});
+	});
+
+	rotateY(radians(-rot));
+	//rotateX(radians(-rot));
+	translate(Pos.x, Pos.y, Pos.z);
 }
 
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
+}

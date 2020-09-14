@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Views</title>
+
+	<style>
+		* {
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+		}
+		
+		body {
+			align-content: center;
+			background:coral;
+		}
+
+		div {
+			align-content: center;
+			text-align: center;
+
+			padding-top: 1pc;
+			padding-bottom: 1pc;
+
+			margin-top: 1pc;
+
+			border-radius: 50px;
+
+			background: turquoise;
+		}
+
+		canvas {
+			border: 2px black;
+		}
+	</style>
+</head>
+<body>
+
+	<div>
+		<h3>Front</h3>
+		<canvas id="front"></canvas>
+	</div>
+
+	<div>
+		<h3>Left</h3>
+		<canvas id="left"></canvas>
+	</div>
+
+	<div>
+		<h3>Top</h3>
+		<canvas id="top"></canvas>
+	</div>
+
+	<script>
+		const Front = document.querySelector('#front');
+		const fntCtx = Front.getContext('2d');
+		const Left = document.querySelector('#left');
+		const lftCtx = Left.getContext('2d');
+		const Top = document.querySelector('#top');
+		const topCtx = Top.getContext('2d');
+
+		const Pos = {
+			x: 0,
+			y: 0,
+			z: 0,
+			size: 10
+		};
+
+		const mouse = {
+			isClicked: false,
+			x: 0,
+			y: 0
+		}
+
+		Front.mouse = mouse;
+		Left.mouse = mouse;
+		Top.mouse = mouse;
+
+		// FRONT
+		Front.addEventListener('mousedown', e => {
+			Front.mouse.isClicked = true
+			Pos.x = e.offsetX / 300;
+			Pos.y = e.offsetY / 150;
+		});
+		Front.addEventListener('mousemove', e => {
+			if(Front.mouse.isClicked){
+				Pos.x = e.offsetX / 300;
+				Pos.y = e.offsetY / 150;
+			}
+		});
+		Front.addEventListener('mouseup', e => {
+			Front.mouse.isClicked = false;
+		});
+
+		// LEFT
+		Left.addEventListener('mousedown', e => {
+			Left.mouse.isClicked = true
+			Pos.z = e.offsetX / 300;
+			Pos.y = e.offsetY / 150;
+		});
+		Left.addEventListener('mousemove', e => {
+			if(Left.mouse.isClicked){
+				Pos.z = e.offsetX / 300;
+				Pos.y = e.offsetY / 150;
+			}
+		});
+		Left.addEventListener('mouseup', e => {
+			Left.mouse.isClicked = false;
+		});
+
+		// TOP
+		Top.addEventListener('mousedown', e => {
+			Top.mouse.isClicked = true
+			Pos.x = e.offsetX / 300;
+			Pos.z = e.offsetY / 150;
+		});
+		Top.addEventListener('mousemove', e => {
+			if(Top.mouse.isClicked){
+				Pos.x = e.offsetX / 300;
+				Pos.z = e.offsetY / 150;
+			}
+		});
+		Top.addEventListener('mouseup', e => {
+			Top.mouse.isClicked = false;
+		});
+		
+		setInterval(() => {
+
+			fntCtx.fillStyle = "#f9f";
+			fntCtx.fillRect(0, 0, 300, 150);
+			fntCtx.fillStyle = "#000";
+			fntCtx.fillRect(Pos.x * 300 - Pos.size / 2, Pos.y * 150 - Pos.size / 2,  Pos.size, Pos.size);
+
+			lftCtx.fillStyle = "#f9f";
+			lftCtx.fillRect(0, 0, 300, 150);
+			lftCtx.fillStyle = "#000";
+			lftCtx.fillRect(Pos.z * 300 - Pos.size / 2, Pos.y * 150 - Pos.size / 2,  Pos.size, Pos.size);
+
+			topCtx.fillStyle = "#f9f";
+			topCtx.fillRect(0, 0, 300, 150);
+			topCtx.fillStyle = "#000";
+			topCtx.fillRect(Pos.x * 300 - Pos.size / 2, Pos.z * 150 - Pos.size / 2,  Pos.size, Pos.size);
+
+		}, 1000 / 60);
+	</script>
+</body>
+</html>
