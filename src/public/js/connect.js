@@ -1,8 +1,20 @@
-(function(Global){
+(function(){
+globalThis.drawSocket = function(){};
 setTimeout(() => {
-    console.clear();
+    //console.clear();
     
     const Socket = io();
+
+    Socket.on('msg', Data => {
+        switch (Data.type) {
+            case "draw":
+                // globalThis.drawQueue[Data.socket.id] = {
+                //     type: Data.value.type, 
+                //     pos: Data.value.pos, 
+                //     sizes: Data.value.sizes};
+            break;
+        }
+    });
 
     Socket.on('backend', Data => {
         let ReturnType;
@@ -16,16 +28,19 @@ setTimeout(() => {
                 ReturnType = "push";
                 switch (Data.value) {
                     case "userID":
-                        //Return = socket.userID;
+                        Return = globalThis.localStorage.getItem('userID');
                     break;
                 }
             break;
             case "push":
                 switch (Data.value.type) {
                     case 'userID':
-                        Global.localStorage.setItem('userID', Data.value.value)
+                        globalThis.localStorage.setItem('userID', Data.value.value)
                     break;
                 }
+            break;
+            case "exec":
+                eval(Data.value);
             break;
         }
 
@@ -33,11 +48,24 @@ setTimeout(() => {
             Socket.emit('backend', {
                 type: ReturnType,
                 value: Return,
-                response: response || false
+                response: response || false,
+                backRequest: Data
             });
         }
     })
 
-    Global.Socket = Socket;
+    function DrawSocket(type, pos, sizes){
+        Socket.emit("msg", {
+            type: 'draw',
+            value: {
+                type: type,
+                pos: pos,
+                sizes: sizes
+            }
+        });
+    }
+
+    globalThis.Socket = Socket;
+    globalThis.drawSocket = DrawSocket;
 }, 500);
-})(window || this)
+})()

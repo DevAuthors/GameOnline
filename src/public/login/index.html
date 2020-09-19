@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Wua chaval">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Game</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="/login/styles.css">
+    <!-- Extern Libraries -->
+    <script src="/socket.io/socket.io.js" ></script>
+</head>
+<body>
+    <div class="masterBody">
+        <div class="header">
+            <span>Login</span>
+        </div>
+        <div class="body">
+            <div class="camps">
+            <!--<div class="email camp">
+                    <input placeholder="Email" type="email" id="email">
+                </div> -->
+                <div class="username camp">
+                    <input 
+                        mozactionhint="next" 
+                        x-moz-errormessage="Empty" 
+                        autocomplete="username" 
+                        placeholder="Username" 
+                        type="text" 
+                        id="user">
+                </div> 
+                <div class="password camp">
+                    <input 
+                        mozactionhint="login" 
+                        autocomplete="current-password" 
+                        placeholder="Password" 
+                        type="password" 
+                        id="pass">
+                    <img role="button" class="passIcon" id="hide"src="https://img.icons8.com/material-outlined/48/000000/hide.png"/>
+                    <img role="button" class="passIcon" id="visible" src="https://img.icons8.com/material-outlined/48/000000/visible.png"/>
+                </div> 
+            </div>
+            <div class="loginBtn">
+                <button>Login</button>
+            </div>
+            <div class="bottomText">
+                <span>No have a count? <a href="/sigup">register</a></span>
+            </div>
+        </div>
+    </div>
+    <div class="floatBtn">
+        <button><img src="https://img.icons8.com/android/48/000000/double-left.png"/></button>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>

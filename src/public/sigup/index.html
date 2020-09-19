@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Wua chaval">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Game</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href="/sigup/styles.css">
+    <!-- Extern Libraries -->
+    <script src="/socket.io/socket.io.js" ></script>
+</head>
+<body>
+    <div class="masterBody">
+        <div class="header">
+            <span>Sigup</span>
+        </div>
+        <div class="body">
+            <div class="camps">
+                <div class="email camp">
+                    <input 
+                        mozactionhint="next" 
+                        x-moz-errormessage="Empty" 
+                        autocomplete="email" 
+                        placeholder="Email" 
+                        type="text" 
+                        id="email">
+                </div> 
+                <div class="username camp">
+                    <input 
+                        mozactionhint="next" 
+                        x-moz-errormessage="Empty" 
+                        autocomplete="username" 
+                        placeholder="Username" 
+                        type="text" 
+                        id="user">
+                </div> 
+                <div class="password camp">
+                    <input 
+                        mozactionhint="login" 
+                        autocomplete="new-password" 
+                        placeholder="Password" 
+                        type="password" 
+                        id="pass">
+                    <img role="button" class="passIcon" id="hide"src="https://img.icons8.com/material-outlined/48/000000/hide.png"/>
+                    <img role="button" class="passIcon" id="visible" src="https://img.icons8.com/material-outlined/48/000000/visible.png"/>
+                </div> 
+            </div>
+            <div class="loginBtn">
+                <button>Signup</button>
+            </div>
+            <div class="bottomText">
+                <span>Have a count? <a href="/login">login</a></span>
+            </div>
+        </div>
+    </div>
+    <div class="floatBtn">
+        <button><img src="https://img.icons8.com/android/48/000000/double-left.png"/></button>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>

@@ -8,6 +8,8 @@ let FrameJump = 0;
 
 let Camera;
 
+globalThis.drawQueue = {};
+
 function preload() {
 	loadAllTextures();
 }
@@ -26,6 +28,8 @@ function draw(){
 	background(255);
 	noStroke();
 	Protos.setFloor(color("#008000"), 500, Pos);
+	Protos.drawQueue(drawQueue);
+	//drawQueue = [];
 	if(mouseIsPressed){
 		//rot++;
 	}
@@ -81,6 +85,8 @@ function draw(){
 	rotateY(radians(-rot));
 	//rotateX(radians(-rot));
 	translate(Pos.x, Pos.y, Pos.z);
+
+	globalThis.drawSocket("cube", {x: Pos.x, y: Pos.y, z: Pos.z}, 50)
 }
 
 function windowResized() {

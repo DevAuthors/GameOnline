@@ -1,0 +1,248 @@
+/* Variables */
+:root {
+	--primary: #FF5555;
+	--secundary: #FFFFFF;
+	--border-color: #DDDDDD;
+	--background-primary: #5613FF;
+	--background-seccundary: #0097FF;
+}
+
+/* Desktop || General */
+	/* Globals */
+	input 
+	{
+		outline: none;
+		text-align: center;
+		appearance: none;
+		width: 100%;
+		height: 100%;
+		border-radius: 30px;
+		border-color: var(--border-color);
+		border-style: solid;
+	}
+
+	button{
+		appearance: none;
+	}
+
+	/* Body */
+	body 
+	{
+		height: 100vh; /* Adapt Background */
+		/* Background Gradient */
+		background: var(--background-seccundary);
+		background: linear-gradient(
+			180deg,
+			var(--background-primary) 0%, 
+			var(--background-seccundary) 100%);
+	}
+
+	/* Master Body */
+	.masterBody 
+	{
+		background: var(--secundary);
+		/* Position */
+		position: fixed;
+		width: 45%;
+		height: 45%;
+		top: 27.5%;
+		left: 27.5%;
+		/* Border */
+		border-radius: 30px;
+		border: solid 2px;
+		border-color: #FF5555;
+		/* Shadow */
+		box-shadow: 0px 0px 20px 5px #AA0000;
+	}
+
+	/* Header */
+	.header 
+	{
+		/* Text Position */
+		text-align: center;
+		padding-top: 5%;
+		/* Text Style */
+		color: var(--primary);
+		font-weight: bold;
+		font-size: 290%;
+	}
+
+	/* Body */
+	.body 
+	{
+		position: absolute;
+		left: 5%;
+		width: 90%;
+		top: 25%;
+		height: 70%;
+	}
+
+	/* Camp*/
+	.camp 
+	{
+		position: absolute;
+		left: 17.5%;
+		width: 65%;
+		height: 10%;
+	}
+	/* Email */
+	.email 
+	{
+		top: 5%;
+	}
+
+	/* Username */
+	.username 
+	{
+		top: 20%;
+	}
+
+	/* Paswword */
+	.password 
+	{
+		top: 35%;
+	}
+
+	img.passIcon {
+		position: absolute;
+		top: 5%;
+		width: 14%;
+		right: -17%;
+		cursor: pointer;
+	}
+	img#hide {
+		display: none;
+	}
+
+	/* Login Button */
+	.loginBtn 
+	{
+		position: absolute;
+		bottom: 20%;
+		left: 35%;
+		width: 30%;
+		height: 10%;
+	}
+
+	.loginBtn button 
+	{
+		appearance: none;
+		cursor: pointer;
+		width: 100%;
+		height: 100%;
+		/* Border */
+		border-radius: 20px;
+		border: solid 2px var(--primary);
+		outline: none;
+		/* Background */
+		background: transparent;
+		/* Text Style */
+		color: var(--primary);
+		font-weight: bold;
+		font-size: 110%;
+	}
+
+	.loginBtn button:hover {
+		color: #b13c3c;
+		border-color: #b13c3c;
+	}
+
+	.loginBtn button:active {
+		border-color: #622;
+		color: #622;
+		width: 90%;
+		float: initial;
+		margin-left: 5%;
+	}
+
+	/* Footer */
+	.bottomText 
+	{
+		position: absolute;
+		bottom: 5%;
+		width: 90%;
+		left: 5%;
+		text-align: center;
+		font-family: monospace;
+		color: #55f;
+		font-weight: bold;
+		font-size: 110%;
+	}
+
+	.bottomText span a {
+		text-decoration: underline;
+		color: #f57;
+	}
+
+	.bottomText span a:visited {
+		color: #FF6565;
+	}
+
+	.bottomText span a:hover {
+		color: #b13c3c;
+	}
+
+	.bottomText span a:active {
+		color: #622;
+	}
+
+	/* Back Button */
+	.floatBtn {
+		cursor: pointer;
+		position: fixed;
+		width: 8vw;
+		height: 7vw;
+		border-radius: 40px;
+		background: #d4b5b5;
+		box-shadow: inset 0 0 12px black;
+	}
+
+	.floatBtn button {
+		cursor: pointer;
+		appearance: none;
+		background: transparent;
+		border: none;
+	}
+
+	.floatBtn img {
+		width: 72%;
+		position: absolute;
+		top: 8%;
+		left: 8%;
+	}
+
+/* Mobile */
+@media only screen and (max-width: 768px) and (orientation: portrait){
+	.header {
+		font-size: 300%;
+	}
+	input {
+		font-size: 110%;
+	}
+	img.passIcon {
+		width: 22%;
+		right: -27%;
+	}
+	.loginBtn {
+		left: 33.5%;
+		width: 33%;
+	}	
+	.loginBtn button {
+		font-size: 95%;
+		padding: 1px;
+	}
+	.floatBtn {
+		width: 11vw;
+		height: 10vw;
+	}
+}
+
+@media only screen and (max-height: 768px) and (orientation: landscape){
+	.masterBody {
+		height: 60%;
+		top: 20%;
+	}
+	.loginBtn {
+		height: 15%;
+	}
+}
