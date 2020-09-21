@@ -12,15 +12,9 @@ class Vector {
   public y: number;
   public z: number;
   constructor(X: number, Y: number, Z: number) {
-    if (X !== undefined) {
-      this.x = X;
-    }
-    if (Y !== undefined) {
-      this.y = Y;
-    }
-    if (Z !== undefined) {
-      this.z = Z;
-    }
+    this.x = X || 0;
+    this.y = Y || 0;
+    this.z = Z || 0;
   }
 }
 

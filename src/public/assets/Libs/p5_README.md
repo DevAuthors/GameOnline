@@ -2,18 +2,7 @@
 
 You have downloaded the complete p5.js library ZIP file, yay!
 
-# Contents of the p5 folder
-
-* p5.js file
-* p5.min.js file
-* addons folder
-  * p5.sound.js
-  * p5.sound.min.js
-* empty-example folder
-  * index.html
-  * p5.js
-  * p5.sound.js
-  * sketch.js
+# p5 Contents
 
 ## p5.js
 
@@ -30,22 +19,6 @@ The addons folder includes additional p5.js related libraries, in both original 
 ### p5.sound.js, p5.sound.min.js
 
 p5.sound extends p5.js with Web Audio functionality including audio input, playback, analysis, and synthesis.
-
-## empty-example folder
-
-This is an empty example of a website. The folder includes the file for the website, index.html, the p5.js library, other related p5.js libraries, and a template starting point for your p5.js sketch, called sketch.js.
-
-### index.html
-
-index.html is a template for an HTML file. This index.html first imports the libraries included in the folder (p5.js, p5.sound.js) then loads and executes the file sketch.js which is where you can write your own code.
-
-### sketch.js
-
-The sketch.js is a template for the p5.js sketch, with the functions setup() and draw() that you can complete.
-
-## README.txt
-
-This README file formatted with Markdown :)
 
 # What's next?
 

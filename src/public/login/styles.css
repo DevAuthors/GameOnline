@@ -186,8 +186,8 @@
 	.floatBtn {
 		cursor: pointer;
 		position: fixed;
-		width: 8vw;
-		height: 7vw;
+		width: 4.5vw;
+		height: 4vw;
 		border-radius: 40px;
 		background: #d4b5b5;
 		box-shadow: inset 0 0 12px black;
@@ -228,8 +228,8 @@
 		padding: 1px;
 	}
 	.floatBtn {
-		width: 11vw;
-		height: 10vw;
+		width: 9.5vw;
+		height: 9vw;
 	}
 }
 /* Tablet */

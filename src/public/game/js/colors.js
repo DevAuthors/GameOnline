@@ -7,9 +7,9 @@ const Plane = {
 const textures = {};
 
 const texturesName = {
-   "grass": ["imgs/grass0.jpg", "imgs/grass0.jpg",
-            "imgs/grass1.jpg", "imgs/grass2.jpg",
-            "imgs/grass0.jpg", "imgs/grass0.jpg"]
+   "grass": ["/assets/imgs/grass0.jpg", "/assets/imgs/grass0.jpg",
+            "/assets/imgs/grass1.jpg", "/assets/imgs/grass2.jpg",
+            "/assets/imgs/grass0.jpg", "/assets/imgs/grass0.jpg"]
 }
 
 function loadAllTextures(){
