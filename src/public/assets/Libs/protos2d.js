@@ -3,7 +3,7 @@
 /**
  * @author DevAuthors
  * @createdDate 19.09.20
- * @lastUpdate 19.09.20
+ * @lastUpdate 24.09.20
  * @copyright GNU
  * @file protos2d.js 
  */
@@ -67,10 +67,10 @@
         }
         // pos,     size,   rot, start, end [, anticlock]
         // Vector,  Vector, Ang,  Ang,  ang [, boolean]  
-        ellipse(pos, size, rot, start, end, anticlock) {
+        ellipse(pos, size, rot, start, end, anticlock, complete) {
             this.updtColors();
             this.bgPath();
-            this.move(pos);
+            if(complete) this.move(pos);
             this.ctx.ellipse(
                 pos.x, pos.y,
                 size?.x || size, size?.y || size,
@@ -78,9 +78,10 @@
                 start, end,
                 anticlock || false
             );
-            this.line(pos);
+            if(complete) this.line(pos);
             this.rxPath();
         }
+        //#region --- Path funcs
         bgPath() { this.prepare(); this.ctx.beginPath() }
         clPath() { this.prepare(); this.ctx.closePath() }
         rxPath() {
@@ -90,15 +91,19 @@
         }
         move(pos) { this.prepare(); this.ctx.moveTo(pos.x, pos.y) }
         line(pos) { this.prepare(); this.ctx.lineTo(pos.x, pos.y) }
+        //#endregion
 
         autoColor(fillOrStroke) {
             this.prepare();
             if (!fillOrStroke) {
                 const s = [...this.strokeColor];
                 s.shift();
-                let R = parseInt(s.slice(0, 2).join(""), 16);
-                let G = parseInt(s.slice(2, 4).join(""), 16);
-                let B = parseInt(s.slice(4, 6).join(""), 16);
+
+                const a = Math.floor(s.length / 2);
+
+                let R = parseInt(s.slice(a * 0, a * 1).join(""), 16);
+                let G = parseInt(s.slice(a * 1, a * 2).join(""), 16);
+                let B = parseInt(s.slice(a * 2, a * 3).join(""), 16);
 
                 R = Math.min(R + 25, 255);
                 G = Math.min(G + 25, 255);
@@ -113,6 +118,7 @@
             } else {
                 const f = [...this.fillColor];
                 f.shift();
+
                 let R = parseInt(f.slice(0, 2).join(""), 16);
                 let G = parseInt(f.slice(2, 4).join(""), 16);
                 let B = parseInt(f.slice(4, 6).join(""), 16);
@@ -131,6 +137,56 @@
         }
     }
 
+    //#region --- Keys
+    const Keys = [];
+	G.onkeydown = e => {
+		const K = e.key.toUpperCase().charCodeAt(0);
+		let Found = false;
+		let FoundPos = 0;
+
+		Keys.find((e, i) => {
+			if (e.code == K) {
+				Found = true;
+				FoundPos = i;
+			}
+		});
+
+		if (!Found) {
+			Keys.unshift({
+				code: K,
+				key: e.key,
+				isShifted: e.shiftKey,
+				isCtrled: e.ctrlKey,
+				codeLower: (K >= 65 && K <= 90 ? e.key.toLowerCase().charCodeAt() : K)
+			});
+		}
+
+		keysUpdt();
+	}
+
+	G.onkeyup = e => {
+		const K = e.key.toUpperCase().charCodeAt(0);
+		let Found = false;
+		let FoundPos = 0;
+
+		Keys.find((e, i) => {
+			if (e.code == K) {
+				Found = true;
+				FoundPos = i;
+			}
+		});
+
+		if (Found) {
+			Keys.splice(FoundPos, 1);
+		}
+
+		keysUpdt();
+	}
+	function keysUpdt() {
+		addToGlobal("Keys", Keys);
+    }
+    //#endregion
+
     function loop(F, S){
         setInterval(F, S)
     }
@@ -144,8 +200,11 @@
         G.protos[Name] = Value;
     }
 
+    //#region --- Add all
     addToGlobal("Canvas", Canvas);
+    addToGlobal("Keys", Keys);
     addToGlobal("W100", window.innerWidth);
     addToGlobal("H100", window.innerHeight);
-    addToGlobal("loop", loop)
+    addToGlobal("loop", loop);
+    //#endregion
 })(window || this);

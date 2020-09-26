@@ -1,13 +1,14 @@
 const User = require('./User/controller');
 
-// Add methods
+//#region --- Add methods
 exports.add = {}
     exports.add.user = async Data => {
         await User.add(Data);
         return true;
     }
+//#endregion
 
-// Get methods
+//#region --- Get methods
 exports.get = {};
     exports.get.user = async Data => {
         switch (Data.type) {
@@ -22,8 +23,9 @@ exports.get = {};
             break;
         }
     }
+//#endregion
 
-// Remove methods
+//#region --- Remove methods
 exports.rmv = {};
     exports.rmv.user = async Data => {
         try {
@@ -43,8 +45,9 @@ exports.rmv = {};
             return error;
         }
     }
+//#endregion
 
-// Counter methods
+//#region --- Counter methods
 exports.count = {};
     exports.count.user = async () => {
         try {
@@ -54,5 +57,6 @@ exports.count = {};
             return error;
         }
     }
+//#endregion
 
 module.exports = exports;
